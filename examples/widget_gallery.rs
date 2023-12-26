@@ -3,11 +3,11 @@
 use std::{ops::RangeInclusive, time::Instant};
 
 use eframe::egui;
-use egui::Layout;
+use egui::{Layout, ViewportBuilder};
 
 fn main() -> Result<(), eframe::Error> {
     let options = eframe::NativeOptions {
-        initial_window_size: Some(egui::vec2(428.0, 445.0)),
+        viewport: ViewportBuilder::default().with_min_inner_size([428.0, 445.0]),
         default_theme: eframe::Theme::Dark,
         follow_system_theme: false,
         ..Default::default()
@@ -16,7 +16,6 @@ fn main() -> Result<(), eframe::Error> {
         "My egui App",
         options,
         Box::new(|cc| {
-            //dear_egui::imgui::set_theme(&cc.egui_ctx, dear_egui::imgui::Font::OpenSans);
             dear_egui::set_theme(
                 &cc.egui_ctx,
                 dear_egui::Theme::Imgui,

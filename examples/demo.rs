@@ -1,11 +1,12 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")] // hide console window on Windows in release
 
 use eframe::egui;
+use egui::ViewportBuilder;
 use egui_demo_lib::DemoWindows;
 
 fn main() -> Result<(), eframe::Error> {
     let options = eframe::NativeOptions {
-        initial_window_size: Some(egui::vec2(960.0, 720.0)),
+        viewport: ViewportBuilder::default().with_min_inner_size([960.0, 720.0]),
         default_theme: eframe::Theme::Dark,
         follow_system_theme: false,
         ..Default::default()

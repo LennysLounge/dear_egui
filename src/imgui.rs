@@ -1,6 +1,6 @@
 use egui::{
     epaint::Shadow,
-    style::{Interaction, Selection, Spacing, WidgetVisuals, Widgets},
+    style::{Interaction, ScrollStyle, Selection, Spacing, WidgetVisuals, Widgets},
     Color32, Margin, Rounding, Stroke, Style, Vec2, Visuals,
 };
 
@@ -60,10 +60,17 @@ pub fn get_style() -> Style {
             tooltip_width: 600.0,
             indent_ends_with_horizontal_line: false,
             combo_height: 200.0,
-            scroll_bar_width: 8.0,
-            scroll_handle_min_length: 12.0,
-            scroll_bar_inner_margin: 4.0,
-            scroll_bar_outer_margin: 0.0,
+            scroll: ScrollStyle {
+                floating: false,
+                bar_width: 8.0,
+                handle_min_length: 12.0,
+                bar_inner_margin: 4.0,
+                bar_outer_margin: 0.0,
+                floating_width: 2.0,
+                floating_allocated_width: 12.0,
+                foreground_color: false,
+                ..Default::default()
+            },
         },
         interaction: Interaction {
             resize_grab_radius_side: 5.0,
@@ -156,6 +163,7 @@ pub fn get_style() -> Style {
             text_cursor: Stroke::new(2.0, Color32::from_rgb(192, 222, 255)),
             interact_cursor: None,
             image_loading_spinners: true,
+            handle_shape: egui::style::HandleShape::Circle,
         },
         animation_time: 0.0833333358168602,
         explanation_tooltips: false,
