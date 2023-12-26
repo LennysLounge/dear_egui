@@ -1,0 +1,13 @@
+[package]
+name = "dear_egui"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+egui = "0.23"
+
+[dev-dependencies]
+eframe = "0.23.0"
+egui_demo_lib = "0.23.0"
