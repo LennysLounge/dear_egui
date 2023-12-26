@@ -14,8 +14,11 @@ fn main() -> Result<(), eframe::Error> {
         "Egui demo",
         options,
         Box::new(|cc| {
-            //dear_egui::imgui::set_theme(&cc.egui_ctx, dear_egui::imgui::Font::OpenSans);
-            dear_egui::colors::set_theme(&cc.egui_ctx, dear_egui::colors::SKY);
+            dear_egui::set_theme(
+                &cc.egui_ctx,
+                dear_egui::Theme::Imgui,
+                dear_egui::Font::OpenSans,
+            );
             Box::new(MyApp {
                 demo: DemoWindows::default(),
             })

@@ -1,8 +1,7 @@
 use egui::{
     epaint::Shadow,
     style::{Interaction, Selection, Spacing, WidgetVisuals, Widgets},
-    Color32, FontData, FontDefinitions, FontFamily, FontId, Margin, Rounding, Stroke, Style,
-    TextStyle, Vec2, Visuals,
+    Color32, FontFamily, FontId, Margin, Rounding, Stroke, Style, TextStyle, Vec2, Visuals,
 };
 
 /// Converts hsv color space to rgb egui::Color32
@@ -35,49 +34,12 @@ pub fn from_hsv(h: f32, s: f32, v: f32) -> Color32 {
     )
 }
 
-pub const CADMIUM: Color = Color::new(0.0, 0.80);
-pub const ACID: Color = Color::new(70.0, 0.60);
-pub const FOREST: Color = Color::new(160.0, 0.70);
-pub const SKY: Color = Color::new(212.0, 1.00);
-pub const IRIS: Color = Color::new(240.0, 1.30);
-pub const VIOLET: Color = Color::new(290.0, 0.75);
-pub const RASPBERRY: Color = Color::new(310.0, 0.70);
-
-#[derive(Clone, Copy)]
-pub struct Color {
-    pub hue: f32,
-    pub brightness: f32,
-}
-
-impl Color {
-    pub const fn new(hue: f32, brightness: f32) -> Self {
-        Self { hue, brightness }
-    }
-}
-
-pub fn set_theme(ctx: &egui::Context, color: Color) {
-    let mut fonts = FontDefinitions::default();
-    //Install my own font (maybe supporting non-latin characters):
-    fonts.font_data.insert(
-        "OpenSans".to_owned(),
-        FontData::from_static(include_bytes!("../font/OpenSans-Regular.ttf")),
-    );
-    // Put my font first (highest priority):
-    fonts
-        .families
-        .get_mut(&FontFamily::Proportional)
-        .unwrap()
-        .insert(0, "OpenSans".to_owned());
-    ctx.set_fonts(fonts);
-    ctx.set_style(get_style(color));
-}
-
-pub fn get_style(color: Color) -> Style {
-    let c1 = from_hsv(color.hue, 0.60, 0.27 * color.brightness);
-    let c2 = from_hsv(color.hue, 0.67, 0.42 * color.brightness);
-    let c3 = from_hsv(color.hue, 0.71, 0.67 * color.brightness);
-    let c4 = from_hsv(color.hue, 0.94, 0.96 * color.brightness);
-    let c5 = from_hsv(color.hue, 0.73, 0.98 * color.brightness);
+pub fn get_style(hue: f32, brightness: f32) -> Style {
+    let c1 = from_hsv(hue, 0.60, 0.27 * brightness);
+    let c2 = from_hsv(hue, 0.67, 0.42 * brightness);
+    let c3 = from_hsv(hue, 0.71, 0.67 * brightness);
+    let c4 = from_hsv(hue, 0.94, 0.96 * brightness);
+    let c5 = from_hsv(hue, 0.73, 0.98 * brightness);
 
     Style {
         // override the text styles here:

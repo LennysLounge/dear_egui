@@ -3,10 +3,11 @@
 use std::{ops::RangeInclusive, time::Instant};
 
 use eframe::egui;
+use egui::Layout;
 
 fn main() -> Result<(), eframe::Error> {
     let options = eframe::NativeOptions {
-        initial_window_size: Some(egui::vec2(388.0, 443.0)),
+        initial_window_size: Some(egui::vec2(428.0, 445.0)),
         default_theme: eframe::Theme::Dark,
         follow_system_theme: false,
         ..Default::default()
@@ -16,10 +17,14 @@ fn main() -> Result<(), eframe::Error> {
         options,
         Box::new(|cc| {
             //dear_egui::imgui::set_theme(&cc.egui_ctx, dear_egui::imgui::Font::OpenSans);
-            dear_egui::colors::set_theme(&cc.egui_ctx, dear_egui::colors::SKY);
+            dear_egui::set_theme(
+                &cc.egui_ctx,
+                dear_egui::Theme::Imgui,
+                dear_egui::Font::OpenSans,
+            );
             Box::new(MyApp {
-                theme: Theme::Sky,
-                custom_theme_color: dear_egui::colors::Color::new(0.0, 1.0),
+                theme: dear_egui::Theme::Imgui,
+                font: dear_egui::Font::OpenSans,
                 some_bool: false,
                 counter: 0,
                 last_frame: Instant::now(),
@@ -27,42 +32,18 @@ fn main() -> Result<(), eframe::Error> {
                 r: 0,
                 g: 0,
                 b: 0,
+                custom_hue: 0.5,
+                custom_brightness: 0.5,
             })
         }),
     )
 }
 
-#[allow(dead_code)]
-#[derive(PartialEq)]
-enum Theme {
-    Sky,
-    Iris,
-    Violet,
-    Raspberry,
-    Cadmium,
-    Acid,
-    Forest,
-    Custom,
-}
-
-impl Theme {
-    fn color(&self, custom_color: dear_egui::colors::Color) -> dear_egui::colors::Color {
-        match self {
-            Theme::Sky => dear_egui::colors::SKY,
-            Theme::Iris => dear_egui::colors::IRIS,
-            Theme::Violet => dear_egui::colors::VIOLET,
-            Theme::Raspberry => dear_egui::colors::RASPBERRY,
-            Theme::Cadmium => dear_egui::colors::CADMIUM,
-            Theme::Acid => dear_egui::colors::ACID,
-            Theme::Forest => dear_egui::colors::FOREST,
-            Theme::Custom => custom_color,
-        }
-    }
-}
-
 struct MyApp {
-    theme: Theme,
-    custom_theme_color: dear_egui::colors::Color,
+    theme: dear_egui::Theme,
+    custom_hue: f32,
+    custom_brightness: f32,
+    font: dear_egui::Font,
     some_bool: bool,
     counter: i32,
     last_frame: Instant,
@@ -74,32 +55,40 @@ struct MyApp {
 
 impl eframe::App for MyApp {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-        dear_egui::colors::set_theme(ctx, self.theme.color(self.custom_theme_color));
+        dear_egui::set_theme(ctx, self.theme, self.font);
         egui::CentralPanel::default().show(ctx, |ui| {
             ui.heading("Dear-Egui");
             ui.separator();
-            ui.label("Theme:");
-            if let Theme::Custom = self.theme {
+            ui.horizontal(|ui| {
+                ui.label("Theme:");
+                ui.with_layout(Layout::right_to_left(egui::Align::Center), |ui| {
+                    let mut bool = matches!(self.font, dear_egui::Font::OpenSans);
+                    if ui.checkbox(&mut bool, "OpenSans").changed() && bool {
+                        self.font = dear_egui::Font::OpenSans;
+                    }
+                    let mut bool = matches!(self.font, dear_egui::Font::ProggyClean);
+                    if ui.checkbox(&mut bool, "Proggy Clean").changed() && bool {
+                        self.font = dear_egui::Font::ProggyClean;
+                    }
+                });
+            });
+            if let dear_egui::Theme::Custom { hue, brightness } = &mut self.theme {
                 ui.horizontal(|ui| {
                     ui.label("Hue:");
-                    ui.add(
-                        egui::DragValue::new(&mut self.custom_theme_color.hue)
-                            .clamp_range(RangeInclusive::new(0.0, 360.0)),
-                    );
+                    ui.add(egui::DragValue::new(hue).clamp_range(RangeInclusive::new(0.0, 360.0)));
                     ui.label("Brightness:");
                     ui.add(
-                        egui::DragValue::new(&mut self.custom_theme_color.brightness)
+                        egui::DragValue::new(brightness)
                             .clamp_range(RangeInclusive::new(0.0, 2.0))
                             .speed(0.01),
                     );
                 });
-                ui.set_style(dear_egui::colors::get_style(self.custom_theme_color));
             }
             ui.horizontal(|ui| {
-                let mut tab = |theme: Theme, label: &str| {
-                    ui.set_style(dear_egui::colors::get_style(
-                        theme.color(self.custom_theme_color),
-                    ));
+                let mut tab = |theme: dear_egui::Theme, label: &str| {
+                    let text_styles = ui.style().text_styles.clone();
+                    ui.set_style(theme.get_style());
+                    ui.style_mut().text_styles = text_styles;
                     ui.visuals_mut().widgets.inactive.rounding = egui::Rounding {
                         se: 0.0,
                         sw: 0.0,
@@ -117,14 +106,21 @@ impl eframe::App for MyApp {
                     };
                     ui.selectable_value(&mut self.theme, theme, label);
                 };
-                tab(Theme::Cadmium, "Cadmium");
-                tab(Theme::Acid, "Acid");
-                tab(Theme::Forest, "Forest");
-                tab(Theme::Sky, "Sky");
-                tab(Theme::Iris, "Iris");
-                tab(Theme::Violet, "Violet");
-                tab(Theme::Raspberry, "Raspberry");
-                tab(Theme::Custom, "Custom");
+                tab(dear_egui::Theme::Imgui, "Imgui");
+                tab(dear_egui::Theme::Cadmium, "Cadmium");
+                tab(dear_egui::Theme::Acid, "Acid");
+                tab(dear_egui::Theme::Forest, "Forest");
+                tab(dear_egui::Theme::Sky, "Sky");
+                tab(dear_egui::Theme::Iris, "Iris");
+                tab(dear_egui::Theme::Violet, "Violet");
+                tab(dear_egui::Theme::Raspberry, "Raspberry");
+                tab(
+                    dear_egui::Theme::Custom {
+                        hue: self.custom_hue,
+                        brightness: self.custom_brightness,
+                    },
+                    "Custom",
+                );
             });
             //ui.allocate_space(egui::vec2(0.0, -8.0));
             //ui.separator();
