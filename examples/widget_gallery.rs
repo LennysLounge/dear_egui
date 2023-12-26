@@ -7,7 +7,7 @@ use egui::{Layout, ViewportBuilder};
 
 fn main() -> Result<(), eframe::Error> {
     let options = eframe::NativeOptions {
-        viewport: ViewportBuilder::default().with_min_inner_size([428.0, 445.0]),
+        viewport: ViewportBuilder::default().with_inner_size([428.0, 445.0]),
         default_theme: eframe::Theme::Dark,
         follow_system_theme: false,
         ..Default::default()
