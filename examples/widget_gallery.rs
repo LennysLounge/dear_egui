@@ -187,8 +187,14 @@ impl eframe::App for MyApp {
                     });
 
                     ui.separator();
-                    ui.label("Label text");
-                    ui.small("Small text");
+                    
+                    ui.horizontal(|ui| {
+                        ui.label("Label text");
+                        ui.add_space(10.0);
+                        ui.small("Small text");
+                        ui.add_space(10.0);
+                        ui.strong("Strong text");
+                    });
                     ui.heading("Heading text");
                     ui.monospace("012356789  ! Monospace text.");
                     ui.monospace("Hello world! This works good.");

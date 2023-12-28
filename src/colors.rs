@@ -4,6 +4,8 @@ use egui::{
     Color32, FontFamily, FontId, Margin, Rounding, Stroke, Style, TextStyle, Vec2, Visuals,
 };
 
+use crate::imgui::COLOR_TEXT_WHITE;
+
 /// Converts hsv color space to rgb egui::Color32
 ///
 /// `h` is in the range of 0 <= h < 360.
@@ -106,7 +108,7 @@ pub fn get_style(hue: f32, brightness: f32) -> Style {
                     weak_bg_fill: Color32::from_gray(27),
                     bg_stroke: Stroke::new(1.0, Color32::from_gray(70)),
                     rounding: Rounding::same(2.0),
-                    fg_stroke: Stroke::new(1.0, Color32::WHITE),
+                    fg_stroke: Stroke::new(1.0, COLOR_TEXT_WHITE),
                     expansion: 0.0,
                 },
                 inactive: WidgetVisuals {
@@ -114,7 +116,7 @@ pub fn get_style(hue: f32, brightness: f32) -> Style {
                     weak_bg_fill: c2,
                     bg_stroke: Stroke::new(0.0, Color32::WHITE),
                     rounding: Rounding::same(2.0),
-                    fg_stroke: Stroke::new(1.0, Color32::WHITE),
+                    fg_stroke: Stroke::new(1.0, COLOR_TEXT_WHITE),
                     expansion: 0.0,
                 },
                 hovered: WidgetVisuals {
@@ -138,7 +140,7 @@ pub fn get_style(hue: f32, brightness: f32) -> Style {
                     weak_bg_fill: c5,
                     bg_stroke: Stroke::new(0.0, Color32::WHITE),
                     rounding: Rounding::same(2.0),
-                    fg_stroke: Stroke::new(1.0, Color32::WHITE),
+                    fg_stroke: Stroke::new(1.0, COLOR_TEXT_WHITE),
                     expansion: 0.0,
                 },
             },

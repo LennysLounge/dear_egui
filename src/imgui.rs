@@ -11,6 +11,8 @@ pub const COLOR_INACTIVE: Color32 = Color32::from_rgb(29, 47, 73);
 pub const COLOR_ACTIVE: Color32 = Color32::from_rgb(35, 69, 109);
 pub const COLOR_HOVERED: Color32 = Color32::from_rgb(49, 106, 173);
 
+pub const COLOR_TEXT_WHITE: Color32 = Color32::from_gray(240);
+
 pub const STROKE_BORDER: Stroke = Stroke {
     width: 1.0,
     color: COLOR_BORDER,
@@ -87,7 +89,7 @@ pub fn get_style() -> Style {
                     weak_bg_fill: Color32::from_rgba_premultiplied(27, 27, 27, 255),
                     bg_stroke: STROKE_BORDER,
                     rounding: Rounding::ZERO,
-                    fg_stroke: STROKE_WHITE,
+                    fg_stroke: Stroke::new(1.0, COLOR_TEXT_WHITE),
                     expansion: 0.0,
                 },
                 inactive: WidgetVisuals {
@@ -95,7 +97,7 @@ pub fn get_style() -> Style {
                     weak_bg_fill: COLOR_INACTIVE,
                     bg_stroke: Stroke::NONE,
                     rounding: Rounding::ZERO,
-                    fg_stroke: STROKE_WHITE,
+                    fg_stroke: Stroke::new(1.0, COLOR_TEXT_WHITE),
                     expansion: 0.0,
                 },
                 hovered: WidgetVisuals {
@@ -119,7 +121,7 @@ pub fn get_style() -> Style {
                     weak_bg_fill: COLOR_INACTIVE,
                     bg_stroke: Stroke::NONE,
                     rounding: Rounding::ZERO,
-                    fg_stroke: STROKE_WHITE,
+                    fg_stroke: Stroke::new(1.0, COLOR_TEXT_WHITE),
                     expansion: 0.0,
                 },
             },
