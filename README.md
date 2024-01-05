@@ -3,7 +3,7 @@ A theme for [egui](https://github.com/emilk/egui) insipred by [Dear ImGui](https
 
 ## Instalation
 
-Set the theme on the relevant egui context by specifiying the theme and font to use.
+Set the theme on the relevant egui context by specifying the theme and font to use.
 ```rs
 dear_egui::set_theme(
     ctx,
