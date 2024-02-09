@@ -92,12 +92,15 @@ pub fn get_style(hue: f32, brightness: f32) -> Style {
                 foreground_color: false,
                 ..Default::default()
             },
+            menu_width: 150.0,
         },
         interaction: Interaction {
             resize_grab_radius_side: 5.0,
             resize_grab_radius_corner: 10.0,
             show_tooltips_only_when_still: true,
             tooltip_delay: 1.0,
+            selectable_labels: true,
+            multi_widget_text_select: true,
         },
         visuals: Visuals {
             dark_mode: true,
@@ -182,9 +185,16 @@ pub fn get_style(hue: f32, brightness: f32) -> Style {
             interact_cursor: None,
             image_loading_spinners: true,
             handle_shape: egui::style::HandleShape::Circle,
+            window_highlight_topmost: false,
+            numeric_color_space: egui::style::NumericColorSpace::GammaByte,
         },
         animation_time: 0.0833333358168602,
         explanation_tooltips: false,
-        ..Default::default()
+        override_text_style: None,
+        override_font_id: None,
+        drag_value_text_style: TextStyle::Button,
+        wrap: None,
+        debug: Default::default(),
+        always_scroll_the_only_direction: false,
     }
 }

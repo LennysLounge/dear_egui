@@ -1,7 +1,9 @@
 use egui::{
     epaint::Shadow,
-    style::{Interaction, ScrollStyle, Selection, Spacing, WidgetVisuals, Widgets},
-    Color32, Margin, Rounding, Stroke, Style, Vec2, Visuals,
+    style::{
+        default_text_styles, Interaction, ScrollStyle, Selection, Spacing, WidgetVisuals, Widgets,
+    },
+    Color32, Margin, Rounding, Stroke, Style, TextStyle, Vec2, Visuals,
 };
 
 pub const COLOR_BACKGROUND: Color32 = Color32::from_rgb(15, 15, 15);
@@ -32,7 +34,7 @@ pub fn get_style() -> Style {
 
         //Text style deliberatly left default. A font really
         // should supply its own text styles.
-        //text_styles:
+        text_styles: default_text_styles(),
 
         // set your drag value text style:
         // drag_value_text_style: TextStyle,
@@ -73,12 +75,15 @@ pub fn get_style() -> Style {
                 foreground_color: false,
                 ..Default::default()
             },
+            menu_width: 150.0,
         },
         interaction: Interaction {
             resize_grab_radius_side: 5.0,
             resize_grab_radius_corner: 10.0,
             show_tooltips_only_when_still: true,
             tooltip_delay: 0.7,
+            selectable_labels: true,
+            multi_widget_text_select: true,
         },
         visuals: Visuals {
             dark_mode: true,
@@ -166,9 +171,16 @@ pub fn get_style() -> Style {
             interact_cursor: None,
             image_loading_spinners: true,
             handle_shape: egui::style::HandleShape::Rect { aspect_ratio: 0.5 },
+            window_highlight_topmost: false,
+            numeric_color_space: egui::style::NumericColorSpace::GammaByte,
         },
         animation_time: 0.0833333358168602,
         explanation_tooltips: false,
-        ..Default::default()
+        override_text_style: None,
+        override_font_id: None,
+        drag_value_text_style: TextStyle::Button,
+        wrap: None,
+        debug: Default::default(),
+        always_scroll_the_only_direction: false,
     }
 }
